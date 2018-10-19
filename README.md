@@ -35,7 +35,9 @@ $ git clone: https://github.com/daviddlaiton/ColombiaPIBTrend.git
 
 Then, open the frontend folder directory and run:
 
+```
 $ reload
+```
 
 Now the application it's running on localhost:8080
 ## Built With
