@@ -1,8 +1,8 @@
 const data = "data/data.json";
 
 margin = ({ top: 20, right: 0, bottom: 30, left: 60 })
-    , width = 1200
-    , height = 800
+    , width = 1000
+    , height = 600
     , marginbar = 2;
 
 
@@ -18,7 +18,7 @@ d3.json(data).then(datos => {
         .padding(0.1);
 
     var y = d3.scaleLinear()
-        .domain([0, d3.max(datos, d => d.average)]).nice()
+        .domain([0, d3.max(datos, d => d.total)]).nice()
         .range([height - margin.bottom, margin.top]);
 
     var z = d3.scaleOrdinal()
@@ -36,17 +36,17 @@ d3.json(data).then(datos => {
 
     const bar = svg.append("g")
         .selectAll("rect").data(datos).enter().append("rect")
-        .attr("x", d => x(d.year) + 19)
-        .attr("y", d => y(d.value))
-        .attr("height", d => y(0) - y(d.value))
+        .attr("x", d => x(d.year) + 35)
+        .attr("y", d => y(d.total))
+        .attr("height", d => y(0) - y(d.total))
         .attr("width", (x.bandwidth() / 3))
         .attr("fill", "#98abc5");
 
     const bar2 = svg.append("g")
         .selectAll("rect").data(datos).enter().append("rect")
-        .attr("x", d => x(d.year) + 7)
-        .attr("y", d => y(d.average))
-        .attr("height", d => y(0) - y(d.average))
+        .attr("x", d => x(d.year) + 12)
+        .attr("y", d => y(d.agriculture))
+        .attr("height", d => y(0) - y(d.agriculture))
         .attr("width", (x.bandwidth() / 3))
         .attr("fill", "#8a89a6");
 
@@ -55,19 +55,20 @@ d3.json(data).then(datos => {
         .attr("font-size", 10)
         .attr("text-anchor", "end")
         .selectAll("g")
-        .data(["Colombia", "Average"].slice())
+        .data(["GDP Increase", "Agriculture Increase "].slice())
         .enter().append("g")
         .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
     legend.append("rect")
         .attr("x", width - 15)
+        .attr("y", 0)
         .attr("width", 19)
         .attr("height", 19)
         .attr("fill", z);
 
     legend.append("text")
         .attr("x", width - 20)
-        .attr("y", 9.5)
+        .attr("y", 8)
         .attr("dy", "0.32em")
         .text(function (d) { return d; });
 
@@ -93,7 +94,7 @@ d3.json(data).then(datos => {
         .attr("font-weight", "bold")
         .attr("font-size", 20)
         .attr("text-anchor", "start")
-        .text("PIB  a precios constantes en dólares");
+        .text("Percentage increase");
 
     svg.node().update = () => {
         const t = svg.transition()
@@ -103,17 +104,17 @@ d3.json(data).then(datos => {
             .order()
             .transition(t)
             .delay((d, i) => i * 20)
-            .attr("x", d => x(d.year) + 19)
-            .attr("y", d => y(d.value))
-            .attr("height", d => y(0) - y(d.value));
+            .attr("x", d => x(d.year) + 40)
+            .attr("y", d => y(d.total))
+            .attr("height", d => y(0) - y(d.total));
 
         bar2.data(datos, d => d.year)
             .order()
             .transition(t)
             .delay((d, i) => i * 20)
-            .attr("x", d => x(d.year) + 7)
-            .attr("y", d => y(d.average))
-            .attr("height", d => y(0) - y(d.average));
+            .attr("x", d => x(d.year) + 13)
+            .attr("y", d => y(d.agriculture))
+            .attr("height", d => y(0) - y(d.agriculture));
 
         gx.transition(t)
             .call(xAxis)
@@ -128,11 +129,11 @@ d3.json(data).then(datos => {
             case "year":
                 datos.sort((a, b) => a.year - b.year);
                 break;
-            case "value":
-                datos.sort((a, b) => a.value - b.value);
+            case "total":
+                datos.sort((a, b) => a.total - b.total);
                 break;
-            case "average":
-                datos.sort((a, b) => a.average - b.average);
+            case "agriculture":
+                datos.sort((a, b) => a.agriculture - b.agriculture);
                 break;
         }
         x.domain(datos.map(d => d.year));
