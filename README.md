@@ -1,12 +1,12 @@
 # Colombia PIB
 
-The objective of this project was to create a web page that help show all the information related to historical behaviour of the PIB in Colombia. 
+The objective of this project was to create a web page that help show all the information related to growth of the GDP in Colombia.   
 The data used for this project was taken from [here](http://estadisticas.cepal.org/cepalstat/Portada.html). Released by CEPAL.
 The technologies used for this project are JavaScript, React and D3. Also some basic tools of HTML, CSS and Bootstrap.
 
 You can see this project running [here](https://daviddlaiton.github.io/ColombiaPIBTrend).
 
-![Screenshot of the project](/)
+![Screenshot of the project](/images/thumbnail.PNG)
 
 ### Prerequisites
 
